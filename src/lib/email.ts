@@ -1,14 +1,16 @@
 import { Resend } from 'resend';
 
 // ============================================
-// RFM TradePro - Email Service Configuration
+// Oasis MarketPro - Email Service Configuration
 // ============================================
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const FROM_EMAIL = process.env.EMAIL_FROM || 'RFM TradePro <noreply@rfmtradepro.com>';
-const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'RFM TradePro';
+const FROM_EMAIL = process.env.EMAIL_FROM || 'Oasis MarketPro <noreply@oasismarketpro.com>';
+const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'Oasis MarketPro';
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+const SUPPORT_EMAIL =
+  process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "support@oasismarketpro.com";
 
 // Brand colors
 const BRAND_GREEN = '#22c55e';
@@ -26,7 +28,7 @@ interface EmailTemplate {
 }
 
 /**
- * Base email template with professional RFM TradePro branding
+ * Base email template with professional Oasis MarketPro branding
  */
 function baseEmailTemplate(content: string, preheader?: string): string {
   return `
@@ -353,7 +355,8 @@ export async function sendVerificationEmail(
 
   const template: EmailTemplate = {
     subject: `Verify Your Email - ${APP_NAME}`,
-    html: baseEmailTemplate(`
+    html: baseEmailTemplate(
+      `
       <h1>Verify Your Email Address</h1>
       <p class="subtitle">One quick step to activate your account</p>
       
@@ -376,8 +379,10 @@ export async function sendVerificationEmail(
       
       <div class="divider"></div>
       
-      <p style="font-size: 14px; color: #6b7a90;">Need help? Contact our support team at <a href="mailto:support@rfmtradepro.com" style="color: ${BRAND_GREEN};">support@rfmtradepro.com</a></p>
-    `, `Verify your email to start trading on ${APP_NAME}`),
+      <p style="font-size: 14px; color: #6b7a90;">Need help? Contact our support team at <a href="mailto:${SUPPORT_EMAIL}" style="color: ${BRAND_GREEN};">${SUPPORT_EMAIL}</a></p>
+    `,
+      `Verify your email to start trading on ${APP_NAME}`,
+    ),
     text: `
 Hi ${name},
 
@@ -390,7 +395,7 @@ This link expires in 24 hours.
 
 If you didn't create an account with ${APP_NAME}, you can safely ignore this email.
 
-Need help? Contact our support team at support@rfmtradepro.com
+Need help? Contact our support team at ${SUPPORT_EMAIL}
 
 Best regards,
 The ${APP_NAME} Team
@@ -431,7 +436,8 @@ export async function sendPasswordResetEmail(
 
   const template: EmailTemplate = {
     subject: `Reset Your Password - ${APP_NAME}`,
-    html: baseEmailTemplate(`
+    html: baseEmailTemplate(
+      `
       <h1>Reset Your Password</h1>
       <p class="subtitle">We received a request to reset your password</p>
       
@@ -458,8 +464,10 @@ export async function sendPasswordResetEmail(
       
       <div class="divider"></div>
       
-      <p style="font-size: 14px; color: #6b7a90;">Need help? Contact our support team at <a href="mailto:support@rfmtradepro.com" style="color: ${BRAND_GREEN};">support@rfmtradepro.com</a></p>
-    `, `Reset your ${APP_NAME} password`),
+      <p style="font-size: 14px; color: #6b7a90;">Need help? Contact our support team at <a href="mailto:${SUPPORT_EMAIL}" style="color: ${BRAND_GREEN};">${SUPPORT_EMAIL}</a></p>
+    `,
+      `Reset your ${APP_NAME} password`,
+    ),
     text: `
 Hi ${name},
 
@@ -474,7 +482,7 @@ If you didn't request a password reset, please ignore this email or contact supp
 
 Security tip: ${APP_NAME} will never ask for your password via email. Always access your account through our official website.
 
-Need help? Contact our support team at support@rfmtradepro.com
+Need help? Contact our support team at ${SUPPORT_EMAIL}
 
 Best regards,
 The ${APP_NAME} Team
@@ -512,7 +520,8 @@ export async function sendWelcomeEmail(
 ): Promise<{ success: boolean; error?: string }> {
   const template: EmailTemplate = {
     subject: `Welcome to ${APP_NAME}`,
-    html: baseEmailTemplate(`
+    html: baseEmailTemplate(
+      `
       <h1>Welcome to ${APP_NAME}</h1>
       <p class="subtitle">Your account is now active</p>
       
@@ -544,7 +553,7 @@ export async function sendWelcomeEmail(
         <p><strong>Need assistance?</strong> Our support team is available 24/7 to help you get started. Don't hesitate to reach out if you have any questions.</p>
       </div>
       
-      <p style="font-size: 14px; color: #6b7a90;">Contact us anytime at <a href="mailto:support@rfmtradepro.com" style="color: ${BRAND_GREEN};">support@rfmtradepro.com</a></p>
+      <p style="font-size: 14px; color: #6b7a90;">Contact us anytime at <a href="mailto:${SUPPORT_EMAIL}" style="color: ${BRAND_GREEN};">${SUPPORT_EMAIL}</a></p>
     `, `Your ${APP_NAME} account is now active - start trading today`),
     text: `
 Hi ${name},
@@ -564,7 +573,7 @@ Visit your dashboard: ${APP_URL}/dashboard
 
 Need assistance? Our support team is available 24/7 to help you get started.
 
-Contact us anytime at support@rfmtradepro.com
+Contact us anytime at ${SUPPORT_EMAIL}
 
 Best regards,
 The ${APP_NAME} Team
@@ -677,7 +686,7 @@ export async function sendTransactionEmail(
       
       <div class="divider"></div>
       
-      <p style="font-size: 14px; color: #6b7a90;">Questions about this transaction? Contact our support team at <a href="mailto:support@rfmtradepro.com" style="color: ${BRAND_GREEN};">support@rfmtradepro.com</a></p>
+      <p style="font-size: 14px; color: #6b7a90;">Questions about this transaction? Contact our support team at <a href="mailto:${SUPPORT_EMAIL}" style="color: ${BRAND_GREEN};">${SUPPORT_EMAIL}</a></p>
     `, `${config.title} - Reference: ${reference}`),
     text: `
 Hi ${name},
@@ -694,7 +703,7 @@ Transaction Details:
 
 View your dashboard: ${APP_URL}/dashboard
 
-Questions about this transaction? Contact our support team at support@rfmtradepro.com
+Questions about this transaction? Contact our support team at ${SUPPORT_EMAIL}
 
 Best regards,
 The ${APP_NAME} Team
@@ -777,7 +786,7 @@ export async function sendAccountStatusEmail(
       
       <div class="divider"></div>
       
-      <p style="font-size: 14px; color: #6b7a90;">If you have any questions, please contact our support team at <a href="mailto:support@rfmtradepro.com" style="color: ${BRAND_GREEN};">support@rfmtradepro.com</a></p>
+      <p style="font-size: 14px; color: #6b7a90;">If you have any questions, please contact our support team at <a href="mailto:${SUPPORT_EMAIL}" style="color: ${BRAND_GREEN};">${SUPPORT_EMAIL}</a></p>
     `, `${config.title} - ${APP_NAME}`),
     text: `
 Hi ${name},
@@ -790,7 +799,7 @@ ${reason ? `Reason: ${reason}` : ''}
 
 ${status === 'active' ? `Visit your dashboard: ${APP_URL}/dashboard` : `Contact support: ${APP_URL}/contact`}
 
-If you have any questions, please contact our support team at support@rfmtradepro.com
+If you have any questions, please contact our support team at ${SUPPORT_EMAIL}
 
 Best regards,
 The ${APP_NAME} Team
@@ -898,7 +907,7 @@ export async function sendLoginAlertEmail(
       
       <div class="divider"></div>
       
-      <p style="font-size: 14px; color: #6b7a90;">Contact our support team at <a href="mailto:support@rfmtradepro.com" style="color: ${BRAND_GREEN};">support@rfmtradepro.com</a></p>
+      <p style="font-size: 14px; color: #6b7a90;">Contact our support team at <a href="mailto:${SUPPORT_EMAIL}" style="color: ${BRAND_GREEN};">${SUPPORT_EMAIL}</a></p>
     `, `New login to your ${APP_NAME} account detected`),
     text: `
 Hi ${name},
@@ -917,7 +926,7 @@ Wasn't you? If you didn't log in, please immediately reset your password and con
 
 Reset your password: ${APP_URL}/forgot-password
 
-Contact our support team at support@rfmtradepro.com
+Contact our support team at ${SUPPORT_EMAIL}
 
 Best regards,
 The ${APP_NAME} Team
