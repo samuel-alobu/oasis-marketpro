@@ -40,17 +40,17 @@ const values = [
 
 const leadership = [
   {
-    name: 'Alexander Mitchell',
+    name: 'Pat Lavecchia',
     role: 'Chief Executive Officer',
     bio: 'Former Goldman Sachs VP with 20+ years in financial markets.',
   },
   {
-    name: 'Sarah Chen',
+    name: 'John Kasselakis',
     role: 'Chief Technology Officer',
     bio: 'Ex-Google engineer specializing in high-frequency trading systems.',
   },
   {
-    name: 'Marcus Williams',
+    name: 'Galen Murphy',
     role: 'Chief Investment Officer',
     bio: 'Hedge fund manager with $500M+ in assets under management.',
   },

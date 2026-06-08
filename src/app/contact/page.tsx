@@ -34,14 +34,14 @@ const contactMethods = [
   {
     icon: Mail,
     title: 'Email Support',
-    description: 'support@eliteprocapital.com',
+    description: 'support@oasismarketpro.com',
     action: 'Send Email',
     available: 'Response within 2 hours',
   },
   {
     icon: Phone,
     title: 'Phone Support',
-    description: '+1 (800) 555-0199',
+    description: '+1 (908) -0199',
     action: 'Call Now',
     available: 'VIP clients only',
   },
@@ -49,25 +49,25 @@ const contactMethods = [
 
 const offices = [
   {
-    city: 'New York',
-    address: '123 Financial District, Suite 400',
-    region: 'New York, NY 10004, USA',
-    phone: '+1 (212) 555-0100',
-    email: 'newyork@eliteprocapital.com',
+    city: "New York",
+    address: "123 Financial District, Suite 400",
+    region: "1266 East Main Street Suite 603 Stamford CT 06902. USA",
+    phone: "+1 (212) 555-0100",
+    email: "newyork@oasismarketpro.com",
   },
   {
-    city: 'London',
-    address: '45 Canary Wharf Tower',
-    region: 'London E14 5AB, UK',
-    phone: '+44 20 7946 0958',
-    email: 'london@eliteprocapital.com',
+    city: "London",
+    address: "45 Canary Wharf Tower",
+    region: "London E14 5AB, UK",
+    phone: "+44 20 7946 0958",
+    email: "london@oasismarketpro.com",
   },
   {
-    city: 'Singapore',
-    address: '1 Raffles Place, Tower 2',
-    region: 'Singapore 048616',
-    phone: '+65 6521 0100',
-    email: 'singapore@eliteprocapital.com',
+    city: "Singapore",
+    address: "1 Raffles Place, Tower 2",
+    region: "Singapore 048616",
+    phone: "+65 6521 0100",
+    email: "singapore@oasismarketpro.com",
   },
 ];
 
