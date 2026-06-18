@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import {
   Mail,
   Lock,
@@ -52,6 +52,35 @@ function LoginForm() {
     },
   });
 
+  const sendAccountVerificationEmail = async (email: string) => {
+    const response = await fetch(
+      `/api/auth/verify-email?email=${encodeURIComponent(email)}`,
+    );
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.error || "Failed to send verification email");
+    }
+  };
+
+  const handlePostSignIn = async (email: string) => {
+    const session = await getSession();
+    const sessionUser = session?.user as
+      | { email?: string | null; emailVerified?: boolean }
+      | undefined;
+    const accountEmail = sessionUser?.email || email;
+
+    if (sessionUser && !sessionUser.emailVerified) {
+      await sendAccountVerificationEmail(accountEmail);
+      router.push(`/verify-email?email=${encodeURIComponent(accountEmail)}`);
+      router.refresh();
+      return;
+    }
+
+    router.push(callbackUrl);
+    router.refresh();
+  };
+
   const onSubmit = async (data: LoginFormData) => {
     try {
       setIsLoading(true);
@@ -84,6 +113,13 @@ function LoginForm() {
         const sendData = await sendRes.json();
 
         if (sendRes.ok) {
+          if (sendData.requiresEmailVerification) {
+            router.push(
+              `/verify-email?email=${encodeURIComponent(data.email)}`,
+            );
+            return;
+          }
+
           setMaskedEmail(sendData.maskedEmail);
           setRequires2FA(true);
         } else {
@@ -114,8 +150,7 @@ function LoginForm() {
       }
 
       if (result?.ok) {
-        router.push(callbackUrl);
-        router.refresh();
+        await handlePostSignIn(data.email);
       }
     } catch (err) {
       console.error("Login error:", err);
@@ -172,8 +207,7 @@ function LoginForm() {
       }
 
       if (result?.ok) {
-        router.push(callbackUrl);
-        router.refresh();
+        await handlePostSignIn(pendingEmail);
       }
     } catch (err) {
       console.error("2FA verification error:", err);

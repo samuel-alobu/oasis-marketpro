@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import crypto from "crypto";
 import { connectToDatabase } from "@/db/connection";
 import { User } from "@/db/models";
-import { sendTwoFactorCodeEmail } from "@/lib/email";
+import { sendTwoFactorCodeEmail, sendVerificationEmail } from "@/lib/email";
 
 // Generate 6-digit code
 function generateCode(): string {
@@ -106,6 +107,40 @@ export async function POST(request: NextRequest) {
       // Credentials valid - reset login attempts
       user.loginAttempts = 0;
       user.lockUntil = undefined;
+
+      if (!user.emailVerified) {
+        const emailVerificationToken = crypto.randomBytes(32).toString("hex");
+        const emailVerificationExpires = new Date(
+          Date.now() + 24 * 60 * 60 * 1000,
+        );
+
+        user.emailVerificationToken = emailVerificationToken;
+        user.emailVerificationExpires = emailVerificationExpires;
+        await user.save();
+
+        const emailResult = await sendVerificationEmail(
+          user.email,
+          user.firstName,
+          emailVerificationToken,
+        );
+
+        if (!emailResult.success) {
+          console.error(
+            "Failed to send account verification email:",
+            emailResult.error,
+          );
+          return NextResponse.json(
+            { error: "Failed to send verification email" },
+            { status: 500 },
+          );
+        }
+
+        return NextResponse.json({
+          success: true,
+          requiresEmailVerification: true,
+          message: "Account verification email sent",
+        });
+      }
 
       if (!user.twoFactorEnabled) {
         await user.save();
