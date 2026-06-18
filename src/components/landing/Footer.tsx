@@ -86,11 +86,9 @@ export const Footer: React.FC<FooterProps> = ({ className }) => {
         {/* Risk Disclaimers */}
         <div className="space-y-6 text-sm text-[#6b7a90] leading-relaxed">
           <p>
-            Oasis MarketPro, Inc. is a member of the Financial Industry Regulatory Authority (FINRA) and the Securities Investor Protection Corporation
-            (SIPC). Oasis MarketPro, Inc. is a wholly owned subsidiary of Oasis
-            Global Holdings, Inc. Oasis MarketPro, Inc. and its affiliates do not provide tax or legal
-            advice. Please consult your tax advisor or legal counsel for
-            information regarding your specific situation.
+            Oasis Pro Markets, LLC is a member of FINRA / SIPC, and an SEC
+            registered broker-dealer and Alternative Trading System. Oasis Pro
+            Markets LLC is a subsidiary of Oasis Pro Inc/ Oasis MarketPro.
           </p>
           <p>
             The risk of loss in online trading of stocks, options, futures,

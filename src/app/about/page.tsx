@@ -74,7 +74,7 @@ export default function AboutPage() {
               About Oasis MarketPro
             </h1>
             <p className="text-xl text-[#6b7a90] leading-relaxed">
-              Since 2016, we've been on a mission to democratize financial markets, 
+              Since 2009, we've been on a mission to democratize financial markets, 
               providing institutional-grade trading tools to everyone. From our humble 
               beginnings to serving over 150,000 traders worldwide, our commitment 
               remains unchanged: your success is our success.
@@ -102,7 +102,7 @@ export default function AboutPage() {
             <h2 className="text-3xl font-bold text-white mb-8 text-center">Our Story</h2>
             <div className="space-y-6 text-[#9ca3af] leading-relaxed">
               <p>
-                Oasis MarketPro was founded in 2016 by a team of Wall Street veterans and 
+                Oasis MarketPro was founded in 2009 by a team of Wall Street veterans and 
                 Silicon Valley engineers who shared a common frustration: why should the 
                 best trading tools be reserved for hedge funds and institutional investors?
               </p>
