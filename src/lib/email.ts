@@ -193,6 +193,86 @@ The ${APP_NAME} Team
 }
 
 /**
+ * Send two-factor authentication verification code
+ */
+export async function sendTwoFactorCodeEmail(
+  email: string,
+  name: string,
+  code: string
+): Promise<{ success: boolean; error?: string }> {
+  return sendEmail(
+    email,
+    {
+      subject: `Your ${APP_NAME} Verification Code`,
+      html: renderEmailTemplate(
+        'two-factor-code',
+        { name, code },
+        `Use this code to complete your ${APP_NAME} sign in`
+      ),
+      text: `
+Hi ${name},
+
+A sign-in attempt was detected for your ${APP_NAME} account.
+
+Use this verification code to complete your login:
+${code}
+
+This code expires in 10 minutes.
+
+If you did not attempt to sign in, please secure your account immediately by changing your password.
+
+Security tip: ${APP_NAME} will never ask for your verification code via phone, SMS, or social media. Only enter this code on the official ${APP_NAME} website.
+
+Best regards,
+The ${APP_NAME} Team
+      `.trim(),
+    },
+    '2FA verification email',
+    'Failed to send 2FA verification email'
+  );
+}
+
+/**
+ * Send account deletion confirmation code
+ */
+export async function sendAccountDeletionCodeEmail(
+  email: string,
+  name: string,
+  code: string
+): Promise<{ success: boolean; error?: string }> {
+  return sendEmail(
+    email,
+    {
+      subject: `Account Deletion Request - ${APP_NAME}`,
+      html: renderEmailTemplate(
+        'account-deletion-code',
+        { name, code },
+        `Confirm your ${APP_NAME} account deletion request`
+      ),
+      text: `
+Hi ${name},
+
+We received a request to permanently delete your ${APP_NAME} account.
+
+If you made this request, use this verification code to confirm:
+${code}
+
+This code expires in 10 minutes.
+
+If you did not request this deletion, please ignore this email and secure your account by changing your password immediately.
+
+Warning: Account deletion is permanent. Your profile, settings, and preferences will be removed. However, transaction records will be retained for regulatory compliance.
+
+Best regards,
+The ${APP_NAME} Team
+      `.trim(),
+    },
+    'account deletion verification email',
+    'Failed to send account deletion verification email'
+  );
+}
+
+/**
  * Send welcome email after verification
  */
 export async function sendWelcomeEmail(
