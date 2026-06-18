@@ -3,6 +3,12 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   // Enable standalone output for Docker deployment
   output: 'standalone',
+
+  // Pug email templates are loaded dynamically at runtime, so include them
+  // explicitly in the standalone server trace.
+  outputFileTracingIncludes: {
+    '/*': ['./src/emails/**/*.pug'],
+  },
   
   // Enable React Compiler for automatic memoization (stable in Next.js 16)
   reactCompiler: false, // Enable if needed, adds build overhead
