@@ -116,7 +116,7 @@ export const Footer: React.FC<FooterProps> = ({ className }) => {
         {/* Copyright */}
         <div className="mt-12 pt-8 border-t border-[#1e2733]">
           <p className="text-sm text-[#6b7a90]">
-            © 2009 - 2019 Oasis MarketPro, Inc. All rights
+            © 2019 - 2026 Oasis MarketPro, Inc. All rights
             reserved.
           </p>
         </div>

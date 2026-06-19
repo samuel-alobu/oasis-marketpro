@@ -66,7 +66,7 @@ function renderEmailTemplate(
     appName: APP_NAME,
     appUrl: APP_URL,
     supportEmail: SUPPORT_EMAIL,
-    currentYear: 2019,
+    currentYear: 2026,
     preheader,
     brandGreen: BRAND_GREEN,
     brandGreenDark: BRAND_GREEN_DARK,
