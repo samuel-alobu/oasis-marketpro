@@ -135,7 +135,7 @@ export default function AuthLayout({
         {/* Footer */}
         <div className="p-6 text-center border-t border-[#1e2733]">
           <p className="text-sm text-[#6b7a90]">
-            © {new Date().getFullYear()} RFM TradePro. All rights reserved.
+            © {new Date().getFullYear()} Oasis MarketPro. All rights reserved.
           </p>
           <div className="flex items-center justify-center gap-4 mt-2">
             <Link

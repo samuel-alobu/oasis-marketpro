@@ -133,7 +133,7 @@ export default function MaintenancePage() {
       {/* Footer */}
       <footer className="p-6 text-center">
         <p className="text-sm text-[#6b7a90]">
-          © {new Date().getFullYear()} RFM TradePro. All rights reserved.
+          © {new Date().getFullYear()} Oasis MarketPro. All rights reserved.
         </p>
       </footer>
 
