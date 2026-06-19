@@ -66,7 +66,7 @@ function renderEmailTemplate(
     appName: APP_NAME,
     appUrl: APP_URL,
     supportEmail: SUPPORT_EMAIL,
-    currentYear: new Date().getFullYear(),
+    currentYear: 2019,
     preheader,
     brandGreen: BRAND_GREEN,
     brandGreenDark: BRAND_GREEN_DARK,

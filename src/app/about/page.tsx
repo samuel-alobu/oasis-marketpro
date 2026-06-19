@@ -40,24 +40,24 @@ const values = [
 
 const leadership = [
   {
-    name: 'Pat Lavecchia',
-    role: 'Chief Executive Officer',
-    bio: 'Former Goldman Sachs VP with 20+ years in financial markets.',
+    name: "Pat Lavecchia",
+    role: "Chief Executive Officer",
+    bio: 'CEO of Oasis Pro Markets LLC, the first US-regulatedalternative trading system ("ATS") authorized to allow its Subscribers to tradedigital ("blockchain") securities and make payment for those digital securitiesin digital cash. Over his 25+ year career, he has led capital markets teams andspearheaded the financing, acquisition and/or sale of well over 150 companiesinvolving transactions comprising of over $20 billion across a variety ofindustries including technology, fintech, and blockchain.',
   },
   {
-    name: 'John Kasselakis',
-    role: 'Chief Technology Officer',
-    bio: 'Ex-Google engineer specializing in high-frequency trading systems.',
+    name: "John Kasselakis",
+    role: "Chief Technology Officer",
+    bio: 'John Kasselakis is an executive with 20+ years of structuring, financing, programming, developing and overseeing complex, high-value and strategically relevant international businesses with project costs in the billions of USD in partnership with leading governmental, financial and private and publicly-traded counterparts based in East Asia, Central Asia, the Middle East, Europe and the Americas.',
   },
   {
-    name: 'Galen Murphy',
-    role: 'Chief Investment Officer',
-    bio: 'Hedge fund manager with $500M+ in assets under management.',
+    name: "Galen Murphy",
+    role: "Chief Investment Officer",
+    bio: "Hedge fund manager with $500M+ in assets under management.",
   },
   {
-    name: 'Elena Rodriguez',
-    role: 'Chief Compliance Officer',
-    bio: 'Former SEC regulator ensuring our global regulatory compliance.',
+    name: "Elena Rodriguez",
+    role: "Chief Compliance Officer",
+    bio: "Former SEC regulator ensuring our global regulatory compliance.",
   },
 ];
 
@@ -65,7 +65,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-[#0a0e14]">
       <Header />
-      
+
       <main className="pt-20">
         {/* Hero Section */}
         <section className="py-20 px-6">
@@ -74,10 +74,11 @@ export default function AboutPage() {
               About Oasis MarketPro
             </h1>
             <p className="text-xl text-[#6b7a90] leading-relaxed">
-              Since 2009, we've been on a mission to democratize financial markets, 
-              providing institutional-grade trading tools to everyone. From our humble 
-              beginnings to serving over 150,000 traders worldwide, our commitment 
-              remains unchanged: your success is our success.
+              Since 2019, we've been on a mission to democratize financial
+              markets, providing institutional-grade trading tools to everyone.
+              From our humble beginnings to serving over 150,000 traders
+              worldwide, our commitment remains unchanged: your success is our
+              success.
             </p>
           </div>
         </section>
@@ -88,7 +89,9 @@ export default function AboutPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
-                  <p className="text-3xl md:text-4xl font-bold text-[#22c55e] mb-2">{stat.value}</p>
+                  <p className="text-3xl md:text-4xl font-bold text-[#22c55e] mb-2">
+                    {stat.value}
+                  </p>
                   <p className="text-[#6b7a90]">{stat.label}</p>
                 </div>
               ))}
@@ -99,31 +102,34 @@ export default function AboutPage() {
         {/* Our Story */}
         <section className="py-20 px-6">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-white mb-8 text-center">Our Story</h2>
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">
+              Our Story
+            </h2>
             <div className="space-y-6 text-[#9ca3af] leading-relaxed">
               <p>
-                Oasis MarketPro was founded in 2009 by a team of Wall Street veterans and 
-                Silicon Valley engineers who shared a common frustration: why should the 
-                best trading tools be reserved for hedge funds and institutional investors?
+                Oasis MarketPro was founded in 2019 by Wall Street veteran Pat
+                LaVecchia with the mission to build a regulated bridge between
+                traditional finance (Web2) and the digital asset space (Web3)
+                Oasis pro LLC established a strong track record by becoming an
+                SEC-registered broker-dealer and FINRA member in 2020.
               </p>
               <p>
-                We set out to build a platform that combines institutional-grade technology 
-                with an intuitive interface that anyone can use. Our proprietary trading 
-                engine processes millions of transactions per second with sub-millisecond 
-                latency, giving our traders the same edge that professional firms have enjoyed 
-                for decades.
+                It launched OATSPRO, a multi-asset Alternative Trading System
+                (ATS) that became one of the first in the U.S. authorized to
+                settle digital securities in both fiat and stablecoins like USDC
+                and DAI.
               </p>
               <p>
-                Today, Oasis MarketPro serves traders in over 180 countries, processing 
-                billions of dollars in trading volume annually. But we're just getting started. 
-                Our team continues to push the boundaries of what's possible in online trading, 
-                with new features and markets being added regularly.
+                Today, the platform serves institutional investors, accredited
+                investors, and issuers by facilitating the primary issuance and
+                secondary trading of digital securities and copy trading.
               </p>
-              <p>
-                What sets us apart isn't just our technology—it's our people. Our global team 
-                of over 500 professionals works around the clock to ensure your trading 
-                experience is seamless, secure, and profitable.
-              </p>
+              {/* <p>
+                What sets us apart isn't just our technology—it's our people.
+                Our global team of over 500 professionals works around the clock
+                to ensure your trading experience is seamless, secure, and
+                profitable.
+              </p> */}
             </div>
           </div>
         </section>
@@ -131,14 +137,18 @@ export default function AboutPage() {
         {/* Our Values */}
         <section className="py-20 px-6 bg-[#0f1419]">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-white mb-12 text-center">Our Values</h2>
+            <h2 className="text-3xl font-bold text-white mb-12 text-center">
+              Our Values
+            </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {values.map((value, index) => (
                 <div key={index} className="text-center">
                   <div className="h-16 w-16 mx-auto rounded-2xl bg-[#22c55e]/10 flex items-center justify-center mb-4">
                     <value.icon className="h-8 w-8 text-[#22c55e]" />
                   </div>
-                  <h3 className="text-xl font-semibold text-white mb-2">{value.title}</h3>
+                  <h3 className="text-xl font-semibold text-white mb-2">
+                    {value.title}
+                  </h3>
                   <p className="text-[#6b7a90]">{value.description}</p>
                 </div>
               ))}
@@ -149,16 +159,26 @@ export default function AboutPage() {
         {/* Leadership */}
         <section className="py-20 px-6">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-white mb-12 text-center">Leadership Team</h2>
+            <h2 className="text-3xl font-bold text-white mb-12 text-center">
+              Leadership Team
+            </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {leadership.map((person, index) => (
-                <div key={index} className="bg-[#0f1419] rounded-xl p-6 border border-[#1e2733]">
+                <div
+                  key={index}
+                  className="bg-[#0f1419] rounded-xl p-6 border border-[#1e2733]"
+                >
                   <div className="h-16 w-16 rounded-full bg-gradient-to-br from-[#22c55e] to-[#16a34a] flex items-center justify-center mb-4">
                     <span className="text-white text-xl font-bold">
-                      {person.name.split(' ').map(n => n[0]).join('')}
+                      {person.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
                     </span>
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-1">{person.name}</h3>
+                  <h3 className="text-lg font-semibold text-white mb-1">
+                    {person.name}
+                  </h3>
                   <p className="text-[#22c55e] text-sm mb-3">{person.role}</p>
                   <p className="text-sm text-[#6b7a90]">{person.bio}</p>
                 </div>
@@ -170,9 +190,12 @@ export default function AboutPage() {
         {/* CTA Section */}
         <section className="py-20 px-6 bg-gradient-to-r from-[#22c55e]/10 to-[#16a34a]/10">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-white mb-4">Ready to Start Trading?</h2>
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Ready to Start Trading?
+            </h2>
             <p className="text-[#6b7a90] mb-8">
-              Join over 150,000 traders who trust Oasis MarketPro with their investments.
+              Join over 150,000 traders who trust Oasis MarketPro with their
+              investments.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link

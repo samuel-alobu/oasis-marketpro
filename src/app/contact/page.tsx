@@ -49,10 +49,10 @@ const contactMethods = [
 
 const offices = [
   {
-    city: "New York",
-    address: "123 Financial District, Suite 400",
-    region: "1266 East Main Street Suite 603 Stamford CT 06902. USA",
-    phone: "+1 (212) 555-0100",
+    city: "USA",
+    address: "1266 East Main Street Suite 603",
+    region: "Stamford CT 06902. USA",
+    phone: "+1 (908) 279-9340",
     email: "newyork@oasismarketpro.com",
   },
   {
