@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { Logo } from '@/components/ui/Logo';
-import { cn } from '@/utils';
+import React from "react";
+import Link from "next/link";
+import { Logo } from "@/components/ui/Logo";
+import { cn, getCopyrightYearRange } from "@/utils";
 
 // ============================================
 // Footer Links Data (Matching Design)
@@ -11,33 +11,33 @@ import { cn } from '@/utils';
 
 const footerLinks = {
   about: {
-    title: 'About',
+    title: "About",
     links: [
-      { href: '/about', label: 'About us' },
-      { href: '/why-oasis-marketpro', label: 'Why Oasis MarketPro' },
+      { href: "/about", label: "About us" },
+      { href: "/why-oasis-marketpro", label: "Why Oasis MarketPro" },
     ],
   },
   earn: {
-    title: 'Earn',
+    title: "Earn",
     links: [
-      { href: '/earn/crypto', label: 'Crypto' },
-      { href: '/earn/forex', label: 'Forex' },
-      { href: '/earn/stocks', label: 'Stocks' },
+      { href: "/earn/crypto", label: "Crypto" },
+      { href: "/earn/forex", label: "Forex" },
+      { href: "/earn/stocks", label: "Stocks" },
     ],
   },
   legal: {
-    title: 'Legal',
+    title: "Legal",
     links: [
-      { href: '/legal', label: 'Legal' },
-      { href: '/privacy-policy', label: 'Privacy policy' },
-      { href: '/terms-of-service', label: 'Terms of service' },
+      { href: "/legal", label: "Legal" },
+      { href: "/privacy-policy", label: "Privacy policy" },
+      { href: "/terms-of-service", label: "Terms of service" },
     ],
   },
   support: {
-    title: 'Support',
+    title: "Support",
     links: [
-      { href: '/faq', label: 'FAQ' },
-      { href: '/contact', label: 'Send us an email' },
+      { href: "/faq", label: "FAQ" },
+      { href: "/contact", label: "Send us an email" },
     ],
   },
 };
@@ -51,6 +51,8 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ className }) => {
+  const copyrightYearRange = getCopyrightYearRange();
+
   return (
     <footer className={cn("bg-[#0a0e14]", className)}>
       {/* Main Footer Links */}
@@ -116,8 +118,7 @@ export const Footer: React.FC<FooterProps> = ({ className }) => {
         {/* Copyright */}
         <div className="mt-12 pt-8 border-t border-[#1e2733]">
           <p className="text-sm text-[#6b7a90]">
-            © 2019 - 2026 Oasis MarketPro, Inc. All rights
-            reserved.
+            © {copyrightYearRange} Oasis MarketPro, Inc. All rights reserved.
           </p>
         </div>
       </div>

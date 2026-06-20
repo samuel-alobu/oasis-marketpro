@@ -280,7 +280,7 @@ export default function FAQPage() {
                 Contact Support
               </Link>
               <a
-                href="mailto:support@eliteprocapital.com"
+                href="mailto:support@oasismarketpro.com"
                 className="px-8 py-3 bg-[#1e2733] text-white font-semibold rounded-lg hover:bg-[#2a3441] transition-colors"
               >
                 Email Us

@@ -1,6 +1,7 @@
-import path from 'node:path';
-import pug from 'pug';
-import { Resend } from 'resend';
+import path from "node:path";
+import pug from "pug";
+import { Resend } from "resend";
+import { getCopyrightYearRange } from "@/utils";
 
 // ============================================
 // Oasis MarketPro - Email Service Configuration
@@ -8,16 +9,22 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const FROM_EMAIL = process.env.EMAIL_FROM || 'Oasis MarketPro <noreply@oasismarketpro.com>';
-const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'Oasis MarketPro';
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+const FROM_EMAIL =
+  process.env.EMAIL_FROM || "Oasis MarketPro <noreply@oasismarketpro.com>";
+const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "Oasis MarketPro";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 const SUPPORT_EMAIL =
-  process.env.NEXT_PUBLIC_SUPPORT_EMAIL || 'support@oasismarketpro.com';
+  process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "support@oasismarketpro.com";
 
-const BRAND_GREEN = '#22c55e';
-const BRAND_GREEN_DARK = '#16a34a';
-const BRAND_BG_DARK = '#0a0e14';
-const EMAIL_TEMPLATE_DIR = path.join(process.cwd(), 'src', 'emails', 'templates');
+const BRAND_GREEN = "#22c55e";
+const BRAND_GREEN_DARK = "#16a34a";
+const BRAND_BG_DARK = "#0a0e14";
+const EMAIL_TEMPLATE_DIR = path.join(
+  process.cwd(),
+  "src",
+  "emails",
+  "templates",
+);
 
 interface EmailTemplate {
   subject: string;
@@ -45,28 +52,28 @@ function titleCase(value: string): string {
 }
 
 function formatDateTime(date: Date): string {
-  return date.toLocaleString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    timeZoneName: 'short',
+  return date.toLocaleString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZoneName: "short",
   });
 }
 
 function renderEmailTemplate(
   templateName: string,
   locals: TemplateLocals,
-  preheader?: string
+  preheader?: string,
 ): string {
   return pug.renderFile(path.join(EMAIL_TEMPLATE_DIR, `${templateName}.pug`), {
     ...locals,
     appName: APP_NAME,
     appUrl: APP_URL,
     supportEmail: SUPPORT_EMAIL,
-    currentYear: 2026,
+    copyrightYearRange: getCopyrightYearRange(),
     preheader,
     brandGreen: BRAND_GREEN,
     brandGreenDark: BRAND_GREEN_DARK,
@@ -78,7 +85,7 @@ async function sendEmail(
   to: string,
   template: EmailTemplate,
   logContext: string,
-  failureMessage: string
+  failureMessage: string,
 ): Promise<{ success: boolean; error?: string }> {
   try {
     const { error } = await resend.emails.send({
@@ -112,7 +119,7 @@ async function sendEmail(
 export async function sendVerificationEmail(
   email: string,
   name: string,
-  token: string
+  token: string,
 ): Promise<{ success: boolean; error?: string }> {
   const verificationUrl = `${APP_URL}/verify-email?token=${token}`;
 
@@ -121,9 +128,9 @@ export async function sendVerificationEmail(
     {
       subject: `Verify Your Email - ${APP_NAME}`,
       html: renderEmailTemplate(
-        'verification',
+        "verification",
         { name, verificationUrl },
-        `Verify your email to start trading on ${APP_NAME}`
+        `Verify your email to start trading on ${APP_NAME}`,
       ),
       text: `
 Hi ${name},
@@ -143,8 +150,8 @@ Best regards,
 The ${APP_NAME} Team
       `.trim(),
     },
-    'verification email',
-    'Failed to send verification email'
+    "verification email",
+    "Failed to send verification email",
   );
 }
 
@@ -154,7 +161,7 @@ The ${APP_NAME} Team
 export async function sendPasswordResetEmail(
   email: string,
   name: string,
-  token: string
+  token: string,
 ): Promise<{ success: boolean; error?: string }> {
   const resetUrl = `${APP_URL}/reset-password?token=${token}`;
 
@@ -163,9 +170,9 @@ export async function sendPasswordResetEmail(
     {
       subject: `Reset Your Password - ${APP_NAME}`,
       html: renderEmailTemplate(
-        'password-reset',
+        "password-reset",
         { name, resetUrl },
-        `Reset your ${APP_NAME} password`
+        `Reset your ${APP_NAME} password`,
       ),
       text: `
 Hi ${name},
@@ -187,8 +194,8 @@ Best regards,
 The ${APP_NAME} Team
       `.trim(),
     },
-    'password reset email',
-    'Failed to send password reset email'
+    "password reset email",
+    "Failed to send password reset email",
   );
 }
 
@@ -198,16 +205,16 @@ The ${APP_NAME} Team
 export async function sendTwoFactorCodeEmail(
   email: string,
   name: string,
-  code: string
+  code: string,
 ): Promise<{ success: boolean; error?: string }> {
   return sendEmail(
     email,
     {
       subject: `Your ${APP_NAME} Verification Code`,
       html: renderEmailTemplate(
-        'two-factor-code',
+        "two-factor-code",
         { name, code },
-        `Use this code to complete your ${APP_NAME} sign in`
+        `Use this code to complete your ${APP_NAME} sign in`,
       ),
       text: `
 Hi ${name},
@@ -227,8 +234,8 @@ Best regards,
 The ${APP_NAME} Team
       `.trim(),
     },
-    '2FA verification email',
-    'Failed to send 2FA verification email'
+    "2FA verification email",
+    "Failed to send 2FA verification email",
   );
 }
 
@@ -238,16 +245,16 @@ The ${APP_NAME} Team
 export async function sendAccountDeletionCodeEmail(
   email: string,
   name: string,
-  code: string
+  code: string,
 ): Promise<{ success: boolean; error?: string }> {
   return sendEmail(
     email,
     {
       subject: `Account Deletion Request - ${APP_NAME}`,
       html: renderEmailTemplate(
-        'account-deletion-code',
+        "account-deletion-code",
         { name, code },
-        `Confirm your ${APP_NAME} account deletion request`
+        `Confirm your ${APP_NAME} account deletion request`,
       ),
       text: `
 Hi ${name},
@@ -267,8 +274,8 @@ Best regards,
 The ${APP_NAME} Team
       `.trim(),
     },
-    'account deletion verification email',
-    'Failed to send account deletion verification email'
+    "account deletion verification email",
+    "Failed to send account deletion verification email",
   );
 }
 
@@ -277,16 +284,16 @@ The ${APP_NAME} Team
  */
 export async function sendWelcomeEmail(
   email: string,
-  name: string
+  name: string,
 ): Promise<{ success: boolean; error?: string }> {
   return sendEmail(
     email,
     {
       subject: `Welcome to ${APP_NAME}`,
       html: renderEmailTemplate(
-        'welcome',
+        "welcome",
         { name },
-        `Your ${APP_NAME} account is now active - start trading today`
+        `Your ${APP_NAME} account is now active - start trading today`,
       ),
       text: `
 Hi ${name},
@@ -312,8 +319,8 @@ Best regards,
 The ${APP_NAME} Team
       `.trim(),
     },
-    'welcome email',
-    'Failed to send welcome email'
+    "welcome email",
+    "Failed to send welcome email",
   );
 }
 
@@ -323,35 +330,40 @@ The ${APP_NAME} Team
 export async function sendTransactionEmail(
   email: string,
   name: string,
-  type: 'deposit' | 'withdrawal',
-  status: 'pending' | 'approved' | 'rejected',
+  type: "deposit" | "withdrawal",
+  status: "pending" | "approved" | "rejected",
   amount: number,
-  reference: string
+  reference: string,
 ): Promise<{ success: boolean; error?: string }> {
   const statusConfig = {
     pending: {
-      title: `${type === 'deposit' ? 'Deposit' : 'Withdrawal'} Request Received`,
+      title: `${type === "deposit" ? "Deposit" : "Withdrawal"} Request Received`,
       message: `Your ${type} request of ${formatCurrency(amount)} is being processed.`,
-      color: '#f59e0b',
+      color: "#f59e0b",
     },
     approved: {
-      title: `${type === 'deposit' ? 'Deposit' : 'Withdrawal'} Approved`,
+      title: `${type === "deposit" ? "Deposit" : "Withdrawal"} Approved`,
       message: `Your ${type} of ${formatCurrency(amount)} has been approved and processed successfully.`,
       color: BRAND_GREEN,
     },
     rejected: {
-      title: `${type === 'deposit' ? 'Deposit' : 'Withdrawal'} Rejected`,
+      title: `${type === "deposit" ? "Deposit" : "Withdrawal"} Rejected`,
       message: `Your ${type} request of ${formatCurrency(amount)} has been rejected. Please contact support for more information.`,
-      color: '#ef4444',
+      color: "#ef4444",
     },
   };
 
   const config = statusConfig[status];
   const details: DetailRow[] = [
-    { label: 'Amount', value: formatCurrency(amount), strong: true },
-    { label: 'Type', value: titleCase(type), strong: true },
-    { label: 'Reference', value: reference, monospace: true },
-    { label: 'Status', value: status.toUpperCase(), color: config.color, strong: true },
+    { label: "Amount", value: formatCurrency(amount), strong: true },
+    { label: "Type", value: titleCase(type), strong: true },
+    { label: "Reference", value: reference, monospace: true },
+    {
+      label: "Status",
+      value: status.toUpperCase(),
+      color: config.color,
+      strong: true,
+    },
   ];
 
   return sendEmail(
@@ -359,9 +371,9 @@ export async function sendTransactionEmail(
     {
       subject: `${config.title} - ${APP_NAME}`,
       html: renderEmailTemplate(
-        'transaction',
+        "transaction",
         { name, title: config.title, message: config.message, details },
-        `${config.title} - Reference: ${reference}`
+        `${config.title} - Reference: ${reference}`,
       ),
       text: `
 Hi ${name},
@@ -385,7 +397,7 @@ The ${APP_NAME} Team
       `.trim(),
     },
     `transaction email (${type} - ${status})`,
-    'Failed to send transaction email'
+    "Failed to send transaction email",
   );
 }
 
@@ -395,21 +407,24 @@ The ${APP_NAME} Team
 export async function sendAccountStatusEmail(
   email: string,
   name: string,
-  status: 'active' | 'suspended' | 'banned',
-  reason?: string
+  status: "active" | "suspended" | "banned",
+  reason?: string,
 ): Promise<{ success: boolean; error?: string }> {
   const statusConfig = {
     active: {
-      title: 'Account Activated',
-      message: 'Great news! Your account has been activated and you now have full access to all trading features.',
+      title: "Account Activated",
+      message:
+        "Great news! Your account has been activated and you now have full access to all trading features.",
     },
     suspended: {
-      title: 'Account Suspended',
-      message: 'Your account has been temporarily suspended. Please contact our support team for more information.',
+      title: "Account Suspended",
+      message:
+        "Your account has been temporarily suspended. Please contact our support team for more information.",
     },
     banned: {
-      title: 'Account Terminated',
-      message: 'Your account has been terminated due to a violation of our terms of service.',
+      title: "Account Terminated",
+      message:
+        "Your account has been terminated due to a violation of our terms of service.",
     },
   };
 
@@ -420,17 +435,19 @@ export async function sendAccountStatusEmail(
     {
       subject: `${config.title} - ${APP_NAME}`,
       html: renderEmailTemplate(
-        'account-status',
+        "account-status",
         {
           name,
           status,
           title: config.title,
           message: config.message,
           reason,
-          actionUrl: status === 'active' ? `${APP_URL}/dashboard` : `${APP_URL}/contact`,
-          actionLabel: status === 'active' ? 'Go to Dashboard' : 'Contact Support',
+          actionUrl:
+            status === "active" ? `${APP_URL}/dashboard` : `${APP_URL}/contact`,
+          actionLabel:
+            status === "active" ? "Go to Dashboard" : "Contact Support",
         },
-        `${config.title} - ${APP_NAME}`
+        `${config.title} - ${APP_NAME}`,
       ),
       text: `
 Hi ${name},
@@ -439,9 +456,9 @@ ${config.title}
 
 ${config.message}
 
-${reason ? `Reason: ${reason}` : ''}
+${reason ? `Reason: ${reason}` : ""}
 
-${status === 'active' ? `Visit your dashboard: ${APP_URL}/dashboard` : `Contact support: ${APP_URL}/contact`}
+${status === "active" ? `Visit your dashboard: ${APP_URL}/dashboard` : `Contact support: ${APP_URL}/contact`}
 
 If you have any questions, please contact our support team at ${SUPPORT_EMAIL}
 
@@ -450,7 +467,7 @@ The ${APP_NAME} Team
       `.trim(),
     },
     `account status email (${status})`,
-    'Failed to send account status email'
+    "Failed to send account status email",
   );
 }
 
@@ -462,15 +479,15 @@ export async function sendLoginAlertEmail(
   name: string,
   ipAddress: string,
   userAgent: string,
-  location?: string
+  location?: string,
 ): Promise<{ success: boolean; error?: string }> {
   const loginTime = formatDateTime(new Date());
   const device = `${userAgent.substring(0, 50)}...`;
   const details: DetailRow[] = [
-    { label: 'Time', value: loginTime },
-    { label: 'IP Address', value: ipAddress, monospace: true },
-    ...(location ? [{ label: 'Location', value: location }] : []),
-    { label: 'Device', value: device },
+    { label: "Time", value: loginTime },
+    { label: "IP Address", value: ipAddress, monospace: true },
+    ...(location ? [{ label: "Location", value: location }] : []),
+    { label: "Device", value: device },
   ];
 
   return sendEmail(
@@ -478,9 +495,9 @@ export async function sendLoginAlertEmail(
     {
       subject: `New Login Detected - ${APP_NAME}`,
       html: renderEmailTemplate(
-        'login-alert',
+        "login-alert",
         { name, details },
-        `New login to your ${APP_NAME} account detected`
+        `New login to your ${APP_NAME} account detected`,
       ),
       text: `
 Hi ${name},
@@ -492,7 +509,7 @@ We detected a new login to your ${APP_NAME} account. If this was you, you can sa
 Login Details:
 - Time: ${loginTime}
 - IP Address: ${ipAddress}
-${location ? `- Location: ${location}` : ''}
+${location ? `- Location: ${location}` : ""}
 - Device: ${device}
 
 Wasn't you? If you didn't log in, please immediately reset your password and contact our support team.
@@ -505,8 +522,8 @@ Best regards,
 The ${APP_NAME} Team
       `.trim(),
     },
-    'login alert email',
-    'Failed to send login alert email'
+    "login alert email",
+    "Failed to send login alert email",
   );
 }
 
@@ -526,26 +543,37 @@ export async function sendDepositAlertEmail(
     reference: string;
     status: string;
     createdAt: Date;
-  }
+  },
 ): Promise<{ success: boolean; error?: string }> {
-  const { userName, userEmail, amount, token, network, txHash, walletAddress, reference, status, createdAt } = depositData;
+  const {
+    userName,
+    userEmail,
+    amount,
+    token,
+    network,
+    txHash,
+    walletAddress,
+    reference,
+    status,
+    createdAt,
+  } = depositData;
   const depositTime = formatDateTime(createdAt);
   const amountLabel = `${formatCurrency(amount)} ${token}`;
   const userDetails: DetailRow[] = [
-    { label: 'Name', value: userName, strong: true },
-    { label: 'Email', value: userEmail, href: `mailto:${userEmail}` },
+    { label: "Name", value: userName, strong: true },
+    { label: "Email", value: userEmail, href: `mailto:${userEmail}` },
   ];
   const transactionDetails: DetailRow[] = [
-    { label: 'Reference', value: reference, monospace: true },
-    { label: 'Token', value: token },
-    { label: 'Network', value: network },
-    { label: 'Wallet', value: walletAddress, monospace: true },
-    ...(txHash ? [{ label: 'TX Hash', value: txHash, monospace: true }] : []),
-    { label: 'Time', value: depositTime },
+    { label: "Reference", value: reference, monospace: true },
+    { label: "Token", value: token },
+    { label: "Network", value: network },
+    { label: "Wallet", value: walletAddress, monospace: true },
+    ...(txHash ? [{ label: "TX Hash", value: txHash, monospace: true }] : []),
+    { label: "Time", value: depositTime },
     {
-      label: 'Status',
+      label: "Status",
       value: status.toUpperCase(),
-      color: status === 'completed' ? BRAND_GREEN : '#f59e0b',
+      color: status === "completed" ? BRAND_GREEN : "#f59e0b",
       strong: true,
     },
   ];
@@ -555,9 +583,9 @@ export async function sendDepositAlertEmail(
     {
       subject: `💰 New Deposit: ${amountLabel} - ${APP_NAME}`,
       html: renderEmailTemplate(
-        'deposit-alert',
+        "deposit-alert",
         { amountLabel, userName, userDetails, transactionDetails },
-        `New ${amountLabel} deposit from ${userName}`
+        `New ${amountLabel} deposit from ${userName}`,
       ),
       text: `
 New Deposit Received - Admin Notification
@@ -575,7 +603,7 @@ Transaction Details:
 - Token: ${token}
 - Network: ${network}
 - Wallet: ${walletAddress}
-${txHash ? `- TX Hash: ${txHash}` : ''}
+${txHash ? `- TX Hash: ${txHash}` : ""}
 - Time: ${depositTime}
 - Status: ${status.toUpperCase()}
 
@@ -585,8 +613,8 @@ Best regards,
 ${APP_NAME} System
       `.trim(),
     },
-    'deposit alert email',
-    'Failed to send deposit alert email'
+    "deposit alert email",
+    "Failed to send deposit alert email",
   );
 }
 
@@ -609,11 +637,22 @@ export async function sendWithdrawalAlertEmail(
     fee: number;
     netAmount: number;
     createdAt: Date;
-  }
+  },
 ): Promise<{ success: boolean; error?: string }> {
   const {
-    userName, userEmail, amount, token, network, walletAddress,
-    bankName, accountNumber, reference, status, fee, netAmount, createdAt,
+    userName,
+    userEmail,
+    amount,
+    token,
+    network,
+    walletAddress,
+    bankName,
+    accountNumber,
+    reference,
+    status,
+    fee,
+    netAmount,
+    createdAt,
   } = withdrawalData;
 
   const withdrawalTime = formatDateTime(createdAt);
@@ -623,17 +662,22 @@ export async function sendWithdrawalAlertEmail(
     : `${bankName} - ****${accountNumber?.slice(-4)}`;
   const amountLabel = `${formatCurrency(amount)} ${token}`;
   const userDetails: DetailRow[] = [
-    { label: 'Name', value: userName, strong: true },
-    { label: 'Email', value: userEmail, href: `mailto:${userEmail}` },
+    { label: "Name", value: userName, strong: true },
+    { label: "Email", value: userEmail, href: `mailto:${userEmail}` },
   ];
   const withdrawalDetails: DetailRow[] = [
-    { label: 'Reference', value: reference, monospace: true },
-    { label: 'Method', value: isCrypto ? 'Crypto' : 'Bank Transfer' },
-    { label: 'Destination', value: destinationInfo },
-    { label: 'Fee', value: formatCurrency(fee) },
-    { label: 'Net Amount', value: formatCurrency(netAmount), strong: true },
-    { label: 'Time', value: withdrawalTime },
-    { label: 'Status', value: status.toUpperCase(), color: '#f59e0b', strong: true },
+    { label: "Reference", value: reference, monospace: true },
+    { label: "Method", value: isCrypto ? "Crypto" : "Bank Transfer" },
+    { label: "Destination", value: destinationInfo },
+    { label: "Fee", value: formatCurrency(fee) },
+    { label: "Net Amount", value: formatCurrency(netAmount), strong: true },
+    { label: "Time", value: withdrawalTime },
+    {
+      label: "Status",
+      value: status.toUpperCase(),
+      color: "#f59e0b",
+      strong: true,
+    },
   ];
 
   return sendEmail(
@@ -641,9 +685,9 @@ export async function sendWithdrawalAlertEmail(
     {
       subject: `💸 Withdrawal Request: ${amountLabel} - ${APP_NAME}`,
       html: renderEmailTemplate(
-        'withdrawal-alert',
+        "withdrawal-alert",
         { amountLabel, userName, userDetails, withdrawalDetails },
-        `New ${amountLabel} withdrawal request from ${userName}`
+        `New ${amountLabel} withdrawal request from ${userName}`,
       ),
       text: `
 New Withdrawal Request - Admin Notification
@@ -658,7 +702,7 @@ User Information:
 
 Withdrawal Details:
 - Reference: ${reference}
-- Method: ${isCrypto ? 'Crypto' : 'Bank Transfer'}
+- Method: ${isCrypto ? "Crypto" : "Bank Transfer"}
 - Destination: ${destinationInfo}
 - Fee: ${formatCurrency(fee)}
 - Net Amount: ${formatCurrency(netAmount)}
@@ -671,7 +715,7 @@ Best regards,
 ${APP_NAME} System
       `.trim(),
     },
-    'withdrawal alert email',
-    'Failed to send withdrawal alert email'
+    "withdrawal alert email",
+    "Failed to send withdrawal alert email",
   );
 }
