@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Providers } from '@/components/Providers';
 import '@/styles/globals.css';
+import Script from 'next/script';
 
 // ============================================
 // Metadata Configuration
@@ -81,16 +82,43 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <meta name="application-name" content="Oasis MarketPro" />
+        <meta name="apple-mobile-web-app-title" content="Oasis MarketPro" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link 
-          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" 
-          rel="stylesheet" 
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
         />
         <link rel="preconnect" href="https://api.coingecko.com" />
       </head>
       <body className="min-h-screen bg-[var(--color-background)] text-[var(--color-text-primary)] antialiased">
         <Providers>{children}</Providers>
+
+        <Script id="smartsupp-chat" strategy="afterInteractive">
+          {`
+      var _smartsupp = _smartsupp || {};
+      _smartsupp.key = '${process.env.NEXT_PUBLIC_SMARTSUPP_KEY}';
+
+      window.smartsupp || (function(d) {
+        var s, c, o = smartsupp = function() {
+          o._.push(arguments)
+        };
+        o._ = [];
+        s = d.getElementsByTagName('script')[0];
+        c = d.createElement('script');
+        c.type = 'text/javascript';
+        c.charset = 'utf-8';
+        c.async = true;
+        c.src = 'https://www.smartsuppchat.com/loader.js?';
+        s.parentNode.insertBefore(c, s);
+      })(document);
+    `}
+        </Script>
       </body>
     </html>
   );

@@ -903,3 +903,18 @@ img[data-loading="true"] {
   background-color: transparent !important;
   color-scheme: light !important;
 }
+
+#smartsupp-widget-container {
+  top: auto !important;
+  right: auto !important;
+  bottom: 24px !important;
+  left: 24px !important;
+  max-width: calc(100vw - 48px) !important;
+  max-height: calc(100vh - 48px) !important;
+  z-index: 60 !important;
+}
+
+#smartsupp-widget-container iframe {
+  max-width: calc(100vw - 48px) !important;
+  max-height: calc(100vh - 48px) !important;
+}
