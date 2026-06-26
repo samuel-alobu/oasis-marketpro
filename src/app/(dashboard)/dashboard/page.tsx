@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { cn, formatCurrency } from "@/utils";
 import { useLanguage } from "@/lib/i18n";
+import { useRouter } from 'next/navigation';
 
 // ============================================
 // Dashboard Page - Responsive + Real Trading API
@@ -243,6 +244,7 @@ type DashboardTab = "assets" | "overview";
 export default function DashboardPage() {
   // Translation hook
   const { t } = useLanguage();
+  const router = useRouter();
 
   // Duration options with translations
   const durationOptions = [
@@ -1549,15 +1551,23 @@ export default function DashboardPage() {
 
           {/* Execute Button */}
           <button
-            onClick={handleExecuteTrade}
-            disabled={isProcessing || orderTab === "convert"}
+            onClick={async () => {
+              if (orderTab === 'convert') {
+                // Navigate to copy trading convert/transfer flow
+                router.push('/copy-trading');
+                return;
+              }
+              // If not convert, run trade execution
+              await handleExecuteTrade();
+            }}
+            disabled={isProcessing}
             className={cn(
               "w-full py-2.5 md:py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 text-sm",
               orderTab === "buy"
                 ? "bg-[#22c55e] hover:bg-[#1ea550] text-white"
                 : orderTab === "sell"
                   ? "bg-[#ef4444] hover:bg-[#dc2626] text-white"
-                  : "bg-[#1e2733] text-[#6b7a90] cursor-not-allowed",
+                  : "bg-[#22c55e] hover:bg-[#1ea550] text-white",
             )}
           >
             {isProcessing ? (
@@ -1566,7 +1576,7 @@ export default function DashboardPage() {
                 {t.common.processing}
               </>
             ) : orderTab === "convert" ? (
-              t.common.comingSoon
+              t.dashboard.convert
             ) : orderTab === "buy" ? (
               t.trading.buy
             ) : (
